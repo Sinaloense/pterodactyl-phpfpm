@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2025-12-02T22:07:47-07:00",
+    "name": "PHP-FPM",
+    "author": "sinaloensemel@gmail.com",
+    "description": "a generic PHP-FPM egg",
+    "features": null,
+    "docker_images": {
+        "PHP 8.4": "ghcr.io\/sinaloense\/pterodactyl-phpfpm:8.4"
+    },
+    "file_denylist": [],
+    "startup": "php-fpm8.4 -c \/home\/container\/php.ini --fpm-config \/home\/container\/php-fpm.conf -F",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"start worker process\"\r\n}",
+        "logs": "{}",
+        "stop": "^C & ^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# PHP-FPM Installation Script\r\n#\r\napt-get update\r\napt-get install -y wget\r\nwget -O \/etc\/apt\/trusted.gpg.d\/php.gpg https:\/\/packages.sury.org\/php\/apt.gpg\r\necho \"deb https:\/\/packages.sury.org\/php\/ bookworm main\" > \/etc\/apt\/sources.list.d\/php.list\r\napt-get update\r\napt-get install -y php8.4-fpm\r\n\r\n# Copy nginx config\r\ncp -afv \/etc\/php\/8.4\/fpm\/. \/mnt\/server\/\r\n\r\n# Create logs directory\r\nmkdir -p \/mnt\/server\/php_error_logs\r\n\r\n# Create upload tmp directory\r\nmkdir -p \/mnt\/server\/php_upload_tmp\r\n\r\n# Create tmp directory\r\nmkdir -p \/mnt\/server\/tmp\r\n\r\n# Create sessions directory\r\nmkdir -p \/mt\/server\/sessions",
+            "container": "debian@sha256:b4aa902587c2e61ce789849cb54c332b0400fe27b1ee33af4669e1f7e7c3e22f",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": []
+}
