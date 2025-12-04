@@ -1,0 +1,14 @@
+/var/lib/pterodactyl/volumes/*/fpm/logs/*.log {
+    daily
+    missingok
+    rotate 14
+    notifempty
+    sharedscripts
+    postrotate
+		CONTAINERS=$(docker ps --format "{{.ID}} {{.Image}}" | grep "ghcr.io/sinaloense/pterodactyl-phpfpm" | awk '{print $1}')
+
+        for cid in $CONTAINERS; do
+            docker exec $cid sh -c "kill -USR1 \$(cat /home/container/fpm/tmp/php-fpm.pid)" 2>/dev/null || true
+        done
+    endscript
+}
