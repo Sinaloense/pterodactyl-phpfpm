@@ -5,7 +5,7 @@ LABEL maintainer="Manuel Martinez <sina@serverscstrike.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG PHP_VERSION=8.4
+ARG PHP_VERSION=8.5
 
 RUN apt-get update && apt-get install -y \
     wget \
@@ -44,6 +44,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y --no-install-recommends php${PHP_VERSION}-opcache || true \
     && rm -rf /var/lib/apt/lists/* \
     && adduser --disabled-password --home /home/container container
+
+ENV PHP_INI_SCAN_DIR=/etc/php/${PHP_VERSION}/fpm/conf.d:/home/container/fpm/conf.d
 
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
